@@ -1,23 +1,26 @@
+
 from rest_framework import serializers
+#from .models import User
 from django.contrib.auth.models import User
-from django.contrib.auth.hashers import make_password
 
 class SignUpSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['username', 'email', 'password']
-        extra_kwargs = {'password': {'write_only': True}}
+        fields = ('email', 'password', 'username')
 
     def create(self, validated_data):
-        user = User(
+        user = User.objects.create_user(
             email=validated_data['email'],
-            username=validated_data['username']
+            password=validated_data['password'],
+            username=validated_data['username'],
             #last_name=validated_data['last_name']
         )
-        user.password = make_password(validated_data['password'])
-        user.save()
         return user
 
+
+class LoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True)
 
 
 from .models import Product

@@ -2,7 +2,23 @@
 # along with fields for staff status and superuser status, which we'll use for role-based access control.
 # so for simplicity, we would stick to the built-in User model for now.
 
+from django.conf import settings
+from django.db import models
 
+class OutstandingToken(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, 
+        on_delete=models.CASCADE, 
+        related_name='user_outstanding_tokens'
+    )
+    jti = models.UUIDField(db_index=True)
+    token = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    expires_at = models.DateTimeField()
+    blacklisted = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Outstanding token for {self.user}"
 
 
 

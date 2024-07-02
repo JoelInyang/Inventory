@@ -119,6 +119,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 
+
+
+# settings.py
+#AUTH_USER_MODEL = 'InventApp.CustomUser'
+
+
+
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
