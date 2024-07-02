@@ -237,7 +237,6 @@ class ProductDeleteView(APIView):
     
     
 from .models import Order
-from .serializers import OrderSerializer
 
 class OrderStatusUpdateView(APIView):
     permission_classes = [IsAdminUser]
@@ -248,10 +247,84 @@ class OrderStatusUpdateView(APIView):
         except Order.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-        status = request.data.get('status')
-        if status not in dict(Order.STATUS_CHOICES):
+        order_status = request.data.get('status')
+        if order_status not in dict(Order.STATUS_CHOICES):
             return Response({"error": "Invalid status"}, status=status.HTTP_400_BAD_REQUEST)
 
-        order.status = status
+        order.status = order_status
         order.save()
         return Response({"status": "Order status updated"}, status=status.HTTP_200_OK)
+    
+    
+    
+    
+    
+    
+# inventory/views.py
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.permissions import IsAdminUser
+from .models import Product, Order
+from django.db.models import Sum
+from datetime import datetime, timedelta
+
+class LowStockReportView(APIView):
+    permission_classes = [IsAdminUser]
+
+    def get(self, request):
+        low_stock_products = Product.objects.filter(quantity__lt=10)
+        data = [
+            {
+                "id": product.id,
+                "name": product.name,
+                "quantity": product.quantity,
+                "price": product.price,
+            }
+            for product in low_stock_products
+        ]
+        return Response(data, status=status.HTTP_200_OK)
+
+
+
+class SalesReportView(APIView):
+    permission_classes = [IsAdminUser]
+
+    def get(self, request):
+        # Get the time period from query parameters
+        period = request.query_params.get('period', 'day')
+        if period not in ['day', 'week', 'month']:
+            return Response({"error": "Invalid period"}, status=status.HTTP_400_BAD_REQUEST)
+
+        today = datetime.today()
+
+        if period == 'day':
+            start_date = today - timedelta(days=1)
+        elif period == 'week':
+            start_date = today - timedelta(weeks=1)
+        elif period == 'month':
+            start_date = today - timedelta(days=30)
+
+        orders = Order.objects.filter(status='completed', created_at__gte=start_date)
+        sales_data = {}
+
+        for order in orders:
+            for item in order.items:
+                product_id = item['product_id']
+                quantity = item['quantity']
+                try:
+                    product = Product.objects.get(id=product_id)
+                except Product.DoesNotExist:
+                    continue  # Skip this item if the product does not exist
+
+                if product.name in sales_data:
+                    sales_data[product.name]['quantity'] += quantity
+                    sales_data[product.name]['total_sales'] += quantity * product.price
+                else:
+                    sales_data[product.name] = {
+                        'quantity': quantity,
+                        'total_sales': quantity * product.price
+                    }
+
+        return Response(sales_data, status=status.HTTP_200_OK)
+        

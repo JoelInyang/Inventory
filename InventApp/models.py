@@ -1,4 +1,4 @@
-## For the user model we Django’s built-in User model includes fields for username, password, email, first name, and last name, 
+# For the user model we Django’s built-in User model includes fields for username, password, email, first name, and last name, 
 # along with fields for staff status and superuser status, which we'll use for role-based access control.
 # so for simplicity, we would stick to the built-in User model for now.
 
@@ -7,8 +7,6 @@
 
 
 
-
-# inventory/models.py
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import JSONField
