@@ -31,13 +31,24 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'description', 'quantity', 'price']
 
 
-from .models import Order
+from rest_framework import serializers
+from .models import Order, Product
+
+class ProductOrderSerializer(serializers.Serializer):
+    product_id = serializers.IntegerField()
+    quantity = serializers.IntegerField()
 
 class OrderCreateSerializer(serializers.ModelSerializer):
+    products = ProductOrderSerializer(many=True)
+
     class Meta:
         model = Order
-        fields = ['id', 'items', 'status', 'created_at', 'updated_at']
+        fields = ['id', 'products', 'status', 'created_at', 'updated_at']
+        read_only_fields = ('user', 'created_at', 'updated_at')
 
     def create(self, validated_data):
-        return Order.objects.create(**validated_data)
-
+        products_data = validated_data.pop('products')
+        order = Order.objects.create(**validated_data)
+        order.products = products_data
+        order.save()
+        return order

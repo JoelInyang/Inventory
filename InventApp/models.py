@@ -46,7 +46,9 @@ class Order(models.Model):
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    items = JSONField()  # List of {"product_id": 1, "quantity": 2}
+    products = JSONField(default=list)
+    #products = JSONField()  # List of {"product_id": 1, "quantity": 2}
+    #products = models.ManyToManyField(Product)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
