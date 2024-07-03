@@ -52,6 +52,8 @@ Open settings.py and update the DATABASES configuration with your database crede
         }
 
 for SQLite:
+
+
         DATABASES = {
             'default': {
                 'ENGINE': 'django.db.backends.sqlite3',
