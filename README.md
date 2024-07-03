@@ -38,9 +38,8 @@ pip install -r requirements.txt (There you will find all the dependencies needed
 
 
 ### 4. Configure the Database
-Open settings.py and update the DATABASES configuration with your database credentials. For PostgreSQL, it might look like:
+Open settings.py and update the DATABASES configuration with your database credentials. For PostgreSQL, it looks like this:
 
-if you are using postgreSQL:
         DATABASES = {
             'default': {
                 'ENGINE': 'django.db.backends.postgresql',
@@ -52,7 +51,7 @@ if you are using postgreSQL:
             }
         }
 
-else if you are using SQLite:
+for SQLite:
         DATABASES = {
             'default': {
                 'ENGINE': 'django.db.backends.sqlite3',
