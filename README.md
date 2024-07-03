@@ -29,12 +29,12 @@ git clone https://github.com/JoelInyang/Inventory.git
 ### 2. Create and Activate a Virtual Environment
 
 - python -m venv venv
-- source venv/bin/activate or if you are On Windows, use `venv\Scripts\activate`
+- source venv/bin/activate or if you are on Windows, use `venv\Scripts\activate`
 
 
 #### 3. Install Dependencies
 
-pip install -r requirements.txt ### There you will find all the dependencies needed.
+pip install -r requirements.txt (There you will find all the dependencies needed)
 
 
 ### 4. Configure the Database
