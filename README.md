@@ -38,7 +38,9 @@ pip install -r requirements.txt (There you will find all the dependencies needed
 
 
 ### 4. Configure the Database
-Open settings.py and update the DATABASES configuration with your database credentials. For PostgreSQL, it looks like this:
+Open settings.py and update the DATABASES configuration with your database credentials.
+
+For PostgreSQL, it looks like this:
 
         DATABASES = {
             'default': {
@@ -113,29 +115,29 @@ To run the tests, execute:
 
 Project Structure
 
-Inventory/
-│
-├── InventApp/
-│   ├── __init__.py
-│   ├── admin.py
-│   ├── apps.py
-│   ├── models.py
-│   ├── permissions.py
-│   ├── serializers.py
-│   ├── tests.py
-│   ├── urls.py
-│   ├── views.py
-│   └── ...
-│
-├── inventory/
-│   ├── __init__.py
-│   ├── asgi.py
-│   ├── settings.py
-│   ├── urls.py
-│   └── wsgi.py
-│
-├── manage.py
-├── requirements.txt
-├── db.sqlite3
-└── README.md
+        Inventory/
+        │
+        ├── InventApp/
+        │   ├── __init__.py
+        │   ├── admin.py
+        │   ├── apps.py
+        │   ├── models.py
+        │   ├── permissions.py
+        │   ├── serializers.py
+        │   ├── tests.py
+        │   ├── urls.py
+        │   ├── views.py
+        │   └── ...
+        │
+        ├── inventory/
+        │   ├── __init__.py
+        │   ├── asgi.py
+        │   ├── settings.py
+        │   ├── urls.py
+        │   └── wsgi.py
+        │
+        ├── manage.py
+        ├── requirements.txt
+        ├── db.sqlite3
+        └── README.md
 
